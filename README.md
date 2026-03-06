@@ -8,16 +8,12 @@
 - **音声抽出**: AAC, MP3, Opus, FLAC, WAV への変換に対応。
 - **ポータブル**: インストール不要。スクリプトと本体を置くだけで動作します。
 
-## 🛠 事前準備
-本スクリプトを使用するには、以下のツールをダウンロードし、スクリプトと同じフォルダに配置してください。
-1. **[yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases)**
-2. **[ffmpeg.exe / ffprobe.exe](https://ffmpeg.org/download.html)** (音声変換や動画結合に必要)
+## 🛠 インストール
+1. [Release](https://github.com/n624-dev/yt-dlp-PowerShell-menu/releases)にある `install.bat`をダウンロードし、実行します。
+2. 自動的に必要なファイルがダウンロードされます。（ダウンロードは遅いです。）
 
 ## 📦 使い方
-1. 本リポジトリをダウンロードまたはクローンします。
-2. スクリプトと同じフォルダに `yt-dlp.exe` などを配置します。
-3. `yt-dlp-menu.ps1` を右クリックし、「PowerShell で実行」を選択してください。
-   - ※ 実行ポリシーのエラーが出る場合は、PowerShellで `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` を実行してください。
+1. `yt-dlp Menu`のショートカットをダブルクリックして起動。
 
 ## ⚠️ 免責事項
 - 本ツールは、学習および個人的な視聴を目的とした利用を想定しています。
