@@ -10,6 +10,8 @@ set PS=powershell -NoProfile -ExecutionPolicy Bypass -Command
 
 set SEVEN_ZR_URL=https://www.7-zip.org/a/7zr.exe
 set SEVEN_ZR_EXE=%~dp07zr.exe
+set TEMP_DIR=%~dp0ffmpeg_temp
+set ARCHIVE_NAME=ffmpeg.7z
 
 echo [1/6] menu.ps1
 %PS% "Invoke-WebRequest https://github.com/n624-dev/yt-dlp-PowerShell-menu/releases/latest/download/menu.ps1 -OutFile menu.ps1"
@@ -41,16 +43,22 @@ echo [5/6] Deno
 powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://deno.land/install.ps1 | iex"
 
 echo [6/6] Shortcut
-:: %CD% ではなく、確実にバッチファイルの場所を指す %~dp0 を使用
+
+REM menu.ps1 の場所（このbatと同じフォルダ）
 set "TARGET=%~dp0menu.ps1"
-set "SHORTCUT=%USERPROFILE%\Desktop\yt-dlp Menu.lnk"
+
+REM 同じフォルダにショートカットを作成
+set "SHORTCUT=%~dp0yt-dlp Menu.lnk"
 
 powershell -NoProfile -Command ^
-"$s=(New-Object -COM WScript.Shell).CreateShortcut('%SHORTCUT%'); ^
-$s.TargetPath='powershell.exe'; ^
-$s.Arguments='-ExecutionPolicy Bypass -File \"%TARGET%\"'; ^
-$s.WorkingDirectory='%~dp0'; ^
-$s.Save()"
+"$WshShell = New-Object -ComObject WScript.Shell; ^
+$Shortcut = $WshShell.CreateShortcut('%SHORTCUT%'); ^
+$Shortcut.TargetPath = 'powershell.exe'; ^
+$Shortcut.Arguments = '-NoProfile -ExecutionPolicy Bypass -File \"%TARGET%\"'; ^
+$Shortcut.WorkingDirectory = '%~dp0'; ^
+$Shortcut.Save()"
+
+echo Shortcut created: %SHORTCUT%
 
 echo 完了しました
 pause
