@@ -6,7 +6,7 @@ echo =====================================
 echo yt-dlp Menu Installer
 echo =====================================
 
-set PS=powershell -NoProfile -ExecutionPolicy Bypass -Command
+set PS=powershell -NoProfile -ExecutionPolicy Bypass -Command $ProgressPreference='SilentlyContinue';
 
 set SEVEN_ZR_URL=https://www.7-zip.org/a/7zr.exe
 set SEVEN_ZR_EXE=%~dp07zr.exe
@@ -62,3 +62,4 @@ echo Shortcut created: %SHORTCUT%
 
 echo 完了しました
 pause
+
