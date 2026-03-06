@@ -8,35 +8,48 @@ echo =====================================
 
 set PS=powershell -NoProfile -ExecutionPolicy Bypass -Command
 
+set SEVEN_ZR_URL=https://www.7-zip.org/a/7zr.exe
+set SEVEN_ZR_EXE=%~dp07zr.exe
+
 echo [1/6] menu.ps1
 %PS% "Invoke-WebRequest https://github.com/n624-dev/yt-dlp-PowerShell-menu/releases/latest/download/menu.ps1 -OutFile menu.ps1"
 
 echo [2/6] 7zr.exe
-%PS% "Invoke-WebRequest https://www.7-zip.org/a/7zr.exe -OutFile 7zr.exe"
+%PS% "Invoke-WebRequest '%SEVEN_ZR_URL%' -OutFile '%SEVEN_ZR_EXE%'"
 
 echo [3/6] yt-dlp.exe
 %PS% "Invoke-WebRequest https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -OutFile yt-dlp.exe"
 
 echo [4/6] FFmpeg
-%PS% "Invoke-WebRequest https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip -OutFile ffmpeg.zip"
+%PS% "Invoke-WebRequest https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z -OutFile ffmpeg.7z"
 
-echo 展開中...
-"%CD%\7zr.exe" e ffmpeg.zip -ir!ffmpeg.exe -ir!ffprobe.exe -y -r
-del ffmpeg.zip
+mkdir "%TEMP_DIR%"
+7zr x "%ARCHIVE_NAME%" -o"%TEMP_DIR%" >nul
+
+echo FFmpeg をコピー中...
+for %%F in (ffmpeg.exe ffplay.exe ffprobe.exe) do (
+  for /r "%TEMP_DIR%" %%P in (%%F) do (
+    copy /Y "%%P" "%~dp0" >nul
+  )
+)
+
+echo 余分なファイルを削除中...
+rd /s /q "%TEMP_DIR%"
+del "%ARCHIVE_NAME%" 2>nul
 
 echo [5/6] Deno
 powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://deno.land/install.ps1 | iex"
 
 echo [6/6] Shortcut
-
-set TARGET=%CD%\menu.ps1
-set SHORTCUT=%USERPROFILE%\Desktop\yt-dlp Menu.lnk
+:: %CD% ではなく、確実にバッチファイルの場所を指す %~dp0 を使用
+set "TARGET=%~dp0menu.ps1"
+set "SHORTCUT=%USERPROFILE%\Desktop\yt-dlp Menu.lnk"
 
 powershell -NoProfile -Command ^
 "$s=(New-Object -COM WScript.Shell).CreateShortcut('%SHORTCUT%'); ^
 $s.TargetPath='powershell.exe'; ^
 $s.Arguments='-ExecutionPolicy Bypass -File \"%TARGET%\"'; ^
-$s.WorkingDirectory='%CD%'; ^
+$s.WorkingDirectory='%~dp0'; ^
 $s.Save()"
 
 echo 完了しました
