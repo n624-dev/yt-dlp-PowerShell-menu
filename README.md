@@ -1,4 +1,4 @@
-# yt-dlp-simple-menu
+# yt-dlp-PowerShell-menu
 
 > [!IMPORTANT]
 > **このプロジェクトは一部AIを使用して作成しています**
