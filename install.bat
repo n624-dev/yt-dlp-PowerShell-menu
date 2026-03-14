@@ -13,16 +13,16 @@ set SEVEN_ZR_EXE=%~dp07zr.exe
 set TEMP_DIR=%~dp0ffmpeg_temp
 set ARCHIVE_NAME=ffmpeg.7z
 
-echo [1/6] menu.ps1
+echo [1/7] menu.ps1
 %PS% "Invoke-WebRequest https://github.com/n624-dev/yt-dlp-PowerShell-menu/releases/latest/download/menu.ps1 -OutFile menu.ps1"
 
-echo [2/6] 7zr.exe
+echo [2/7] 7zr.exe
 %PS% "Invoke-WebRequest '%SEVEN_ZR_URL%' -OutFile '%SEVEN_ZR_EXE%'"
 
-echo [3/6] yt-dlp.exe
+echo [3/7] yt-dlp.exe
 %PS% "Invoke-WebRequest https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -OutFile yt-dlp.exe"
 
-echo [4/6] FFmpeg
+echo [4/7] FFmpeg
 %PS% "Invoke-WebRequest https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z -OutFile ffmpeg.7z"
 
 mkdir "%TEMP_DIR%"
@@ -39,10 +39,10 @@ echo 余分なファイルを削除中...
 rd /s /q "%TEMP_DIR%"
 del "%ARCHIVE_NAME%" 2>nul
 
-echo [5/6] Deno
+echo [5/7] Deno
 powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://deno.land/install.ps1 | iex"
 
-echo [6/6] Shortcut
+echo [6/7] Shortcut
 
 REM menu.ps1 の場所（このbatと同じフォルダ）
 set "TARGET=%~dp0menu.ps1"
@@ -59,6 +59,10 @@ $Shortcut.WorkingDirectory = '%~dp0'; ^
 $Shortcut.Save()"
 
 echo Shortcut created: %SHORTCUT%
+
+echo [7/7] update.bat
+%PS% "Invoke-WebRequest https://github.com/n624-dev/yt-dlp-PowerShell-menu/releases/latest/download/update.bat -OutFile update.bat"
+
 
 echo 完了しました
 pause
